@@ -1,6 +1,6 @@
 # NFLQBs
 
-This whole proyect consists on analyzing the TD's and other stats of each NFL quarterback that has played at least once in the last 10 years.
+This whole proyect consists on analyzing with SQL (I began the project with R and Python but ended up with the former) the TD's and other stats of each NFL quarterback that has played at least once in the last 10 years.
 
 I had to join all of the tables with a full inner join, to do this I first joined the tables from the 2011 to the 2014 seasons. (Mainly cause I wasn't being able to join 10 tables at the same time). After that I ended up with the combined touchdowns of every single QB (or whoever threw a single pass during the past decade)
 
