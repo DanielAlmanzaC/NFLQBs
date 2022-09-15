@@ -1,0 +1,84 @@
+---
+title: "NFL QB's in the last decade"
+author: "Almanza Centeno Daniel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars}
+library(rio)
+library(dplyr)
+datos11 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRYZUMniPGkViu34tn2Gz2idi3kJYu07stNPo1QL6t3j7v_V7PBBqEuA9ZWu-aaXVvsRkOkmhp_JNDi/pub?gid=411296669&single=true&output=csv")
+datos12 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSCJnjTQn3De3ZBeCAWFEe3SGvtSeICWO7WEmj4WEdYVcYp5-7QAsg31kDoic8X1eAYI-p2ccHkBeSU/pub?output=csv")
+datos13 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vT9H3GvDRvugQEq_xvCc-FUsmT17kEkNYij-3Cv_Atd9cpQodYENe3SyeOSrRyZPDgxOLmpzLYEJrhI/pub?output=csv")
+datos14 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQCcNmehYt1jb5YRFmPeP8n9B1hG3uWXbBrMlSZQsHBLzlpvniC6Rg9oMDUKmpEj9eFdQFW54qRX_xx/pub?output=csv")
+datos15 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSyuG6ZStdDYbe1Zu6fAcuQa30HguU-ORi-B3ulW6stObI91rqmcaegH1CP_UO71IAByEZ5iYpt-FlZ/pub?output=csv")
+datos16 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTaEPUcvJd2qARueJSdbeTFzLW12-Hzp2t_kYINPOihyEhOESuEjvTKRyT4EleBWEtAvdGBUf4dNUPR/pub?output=csv")
+datos17 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQRWNKiTrzC99zyts6P2sBp3ldu59su7v7nSMGH9L7ADaci6UGmba0H09hFW-tf_yYSbLZeUSZUJOlJ/pub?output=csv")
+datos18 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSpu1HV5jafNoRuUkOSRz6AyH8xLlk8MgA8NQS_CosRDRq_gxq6GX8qZaaC5MX23DZCljmjgxar3QOK/pub?output=csv")
+datos19 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTDF1flwy6j0ugBG6c-1IMX_2GOmp_dBQvQCIPc1crwBKnUSdLHqVARjm3hOCSQ8Q/pub?output=csv")
+datos20 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRNDRWkLMtBpQVvlzcQlgmMIjZLKsKkBHOdBSEzCsg9022dXaLi3z0seX1Uc5I8LED7Rxe-fmHOmV6W/pub?output=csv")
+datos21 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTbrEXqlA2ItygL63ntQXcZy5kh5az2xLapxZqjapXT0I9n7vFQOG-M80Rl7hMOEPDHQVrZa7wX5U89/pub?output=csv")
+datos <- c(datos11,datos12,datos13,datos14,datos15,datos16,datos17,datos18,datos19,datos20,datos21)
+attach(datos)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r cleaning part}
+library(naniar)
+pct_miss(datos)
+```
+
+Now I'll try to see how many pass yards we've had in each year. 
+
+```{r}
+table_yds = sum(datos11$Yds)
+table_yds[2] = sum(datos12$Yds)
+table_yds[3] = sum(datos13$Yds)
+table_yds[4] = sum(datos14$Yds)
+table_yds[5] = sum(datos15$Yds)
+table_yds[6] = sum(datos16$Yds)
+table_yds[7] = sum(datos17$Yds)
+table_yds[8] = sum(datos18$Yds)
+table_yds[9] = sum(datos19$Yds)
+table_yds[10] = sum(datos20$Yds)
+table_yds[11] = sum(datos21$Yds)
+
+tabla.frec_Tm<- matrix(cbind(table_yds[1],table_yds[2],table_yds[3],table_yds[4],
+                        table_yds[5],table_yds[6],table_yds[7],table_yds[8],
+                        table_yds[9],table_yds[10],table_yds[11]),
+                        byrow=T,nrow = 1,ncol=11)
+
+tabla.frec_Tm
+
+barplot(tabla.frec_Tm, xlim=c(0,12),ylim=c(0,140000),col="turquoise",names.arg=c("2011","2012","2013","2014",
+                                                                                "2015","2016","2017","2018","2019","2020","2021"))
+title("Yards per season")
+
+```
+
+Maybe on the table it's hard to visualize it, however 2015, 2016 and 2021 appear to be the most productive years while 2017, 2011 and 2012 are the ones with the less pass yards.
+
+```{r}
+yards <- matrix(cbind("2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021",tabla.frec_Tm),byrow=F,ncol=2)
+colnames(yards) <- c("Years","Yds")
+sort_yards <- as.data.frame(yards[order(yards[,2],decreasing = TRUE),])
+sort_yards 
+```
+
+Now we can see the sorted table of the yards per year, there's actually a 10000 yards difference between 2021 and 2017, however we gotta keep in mind that there were 16 plus games on the 2021 season, which may be the main reason for it being the season with the most passing yards. But even with that, the 2015 season is still way above the 2017 one. I'll focus more on that point next
+
+```{r}
+s15top <- head(datos15$Player)
+s17top <- head(datos17$Player)
+comparison <- c(s15top,s17top)
+comparison
+```
+
